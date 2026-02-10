@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy — WireRules</title>
+<meta name="description" content="WireRules privacy policy. Your data stays on your device.">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Be+Vietnam+Pro:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg-body: #050506;
+  --bg-card: #0a0a0c;
+  --bg-navbar: rgba(5,5,6,0.85);
+  --border: #16161a;
+  --border-hover: #27272a;
+  --text-heading: #ffffff;
+  --text: #d4d4d8;
+  --text-muted: #71717a;
+  --text-dim: #3f3f46;
+  --accent: #059669;
+  --accent-light: #10b981;
+  --font-heading: 'Manrope', sans-serif;
+  --font-body: 'Be Vietnam Pro', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+  color-scheme: dark;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg-body);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-weight: 400;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+a { color: var(--accent-light); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.navbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  background: var(--bg-navbar);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 32px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+}
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: inherit;
+  text-decoration: none;
+}
+.nav-logo-text {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 20px;
+  color: var(--text-heading);
+  letter-spacing: -0.3px;
+}
+
+.content {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 120px 32px 80px;
+}
+.content h1 {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 36px;
+  color: var(--text-heading);
+  letter-spacing: -0.5px;
+  margin-bottom: 8px;
+}
+.last-updated {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--text-dim);
+  margin-bottom: 48px;
+}
+.content h2 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 20px;
+  color: var(--text-heading);
+  margin: 40px 0 12px;
+}
+.content p {
+  margin-bottom: 16px;
+  line-height: 1.8;
+  color: var(--text-muted);
+}
+.content ul {
+  margin: 0 0 16px 24px;
+  color: var(--text-muted);
+  line-height: 1.8;
+}
+
+.footer {
+  padding: 48px 32px;
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+.footer-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.footer-logo-text {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 16px;
+  color: var(--text-muted);
+}
+.footer-copy { font-size: 12px; color: var(--text-dim); }
+
+.email-link .at::after { content: '@'; }
+.email-link .dot::after { content: '.'; }
+
+@media (max-width: 768px) {
+  .navbar { padding: 0 20px; }
+  .content { padding: 100px 20px 60px; }
+  .content h1 { font-size: 28px; }
+}
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="/" class="nav-logo">
+    <svg width="36" height="20" viewBox="0 0 48 26" fill="none">
+      <rect width="48" height="26" rx="13" fill="#059669"/>
+      <circle cx="35" cy="13" r="10" fill="white"/>
+      <rect x="28.33" y="8.19" width="7.04" height="1.48" rx="0.74" fill="#059669" opacity="0.25"/>
+      <rect x="29.63" y="10.78" width="10.74" height="1.48" rx="0.74" fill="#059669" opacity="0.45"/>
+      <rect x="30.93" y="13.37" width="5.56" height="1.48" rx="0.74" fill="#059669" opacity="0.7"/>
+      <rect x="32.22" y="15.96" width="9.63" height="1.48" rx="0.74" fill="#059669"/>
+    </svg>
+    <span class="nav-logo-text">WireRules</span>
+  </a>
+</nav>
+
+<main class="content">
+  <h1>Privacy Policy</h1>
+  <p class="last-updated">Last updated: February 10, 2026</p>
+
+  <h2>Overview</h2>
+  <p>WireRules is a network firewall and traffic inspection tool that runs entirely on your device. We are committed to your privacy — the app does not collect, transmit, or share any personal data.</p>
+
+  <h2>Data Collection</h2>
+  <p>WireRules does <strong style="color:var(--text-heading);">not</strong> collect any data from your device. Specifically:</p>
+  <ul>
+    <li>No personal information is collected</li>
+    <li>No usage analytics or telemetry is sent</li>
+    <li>No network traffic data leaves your device</li>
+    <li>No crash reports are transmitted automatically</li>
+    <li>No advertising identifiers are used</li>
+  </ul>
+
+  <h2>Data Storage</h2>
+  <p>All data generated by WireRules — including traffic logs, filter rules, and application settings — is stored locally on your device and is never transferred to external servers.</p>
+
+  <h2>Network Access</h2>
+  <p>WireRules requires network access to function as a firewall and traffic inspector. All packet inspection occurs locally on your device. No intercepted traffic is forwarded to, stored on, or accessible by any third-party server.</p>
+
+  <h2>Third-Party Services</h2>
+  <p>WireRules does not integrate any third-party analytics, advertising, or tracking services.</p>
+
+  <h2>Changes to This Policy</h2>
+  <p>If we make changes to this privacy policy, we will update the "Last updated" date above. We encourage you to review this page periodically.</p>
+
+  <h2>Contact</h2>
+  <p>If you have questions about this privacy policy, you can reach us at <a href="#" class="email-link">dev<span class="at"></span>wirerules<span class="dot"></span>org</a>.</p>
+</main>
+
+<footer class="footer">
+  <div class="footer-logo">
+    <svg width="28" height="16" viewBox="0 0 48 26" fill="none">
+      <rect width="48" height="26" rx="13" fill="#059669"/>
+      <circle cx="35" cy="13" r="10" fill="white"/>
+      <rect x="28.33" y="8.19" width="7.04" height="1.48" rx="0.74" fill="#059669" opacity="0.25"/>
+      <rect x="29.63" y="10.78" width="10.74" height="1.48" rx="0.74" fill="#059669" opacity="0.45"/>
+      <rect x="30.93" y="13.37" width="5.56" height="1.48" rx="0.74" fill="#059669" opacity="0.7"/>
+      <rect x="32.22" y="15.96" width="9.63" height="1.48" rx="0.74" fill="#059669"/>
+    </svg>
+    <span class="footer-logo-text">WireRules</span>
+  </div>
+  <p class="footer-copy">&copy; 2026 WireRules. All rights reserved.</p>
+</footer>
+
+<script>
+document.querySelector('.email-link').addEventListener('click',function(e){
+  e.preventDefault();
+  location.href=['mai','lto:','dev','@','wirerules','.','org'].join('');
+});
+</script>
+</body>
+</html>

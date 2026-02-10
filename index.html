@@ -1,1 +1,798 @@
-Wirerules
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WireRules — Your network. Your rules.</title>
+<meta name="description" content="Cross-platform network firewall with deep packet inspection. Monitor, inspect, and filter traffic on Android, iOS, macOS, Windows, and Linux.">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Be+Vietnam+Pro:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ========== RESET & VARIABLES ========== */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg-body: #050506;
+  --bg-card: #0a0a0c;
+  --bg-card-hover: #111114;
+  --bg-navbar: rgba(5,5,6,0.85);
+  --border: #16161a;
+  --border-hover: #27272a;
+  --text-heading: #ffffff;
+  --text: #d4d4d8;
+  --text-muted: #71717a;
+  --text-dim: #3f3f46;
+  --accent: #059669;
+  --accent-light: #10b981;
+  --accent-glow: rgba(5,150,105,0.15);
+  --hero-glow: rgba(5,150,105,0.25);
+  --hero-glow-mid: rgba(5,150,105,0.08);
+  --download-bg: rgba(5,150,105,0.03);
+  --icon-stroke: #d4d4d8;
+  --screenshot-glow: rgba(5,150,105,0.05);
+  --btn-secondary-hover-bg: rgba(255,255,255,0.03);
+  --divider: var(--border);
+  --mock-sidebar: #08080a;
+  --mock-row-alt: #0d0d10;
+  --mock-badge-bg: rgba(5,150,105,0.15);
+  --mock-badge-text: #10b981;
+  --mock-badge-block-bg: rgba(239,68,68,0.15);
+  --mock-badge-block-text: #f87171;
+  --mock-bar: #16161a;
+  --mock-bar-fill: #059669;
+  --mock-phone-bg: #0a0a0c;
+  --mock-phone-border: #27272a;
+  --font-heading: 'Manrope', sans-serif;
+  --font-body: 'Be Vietnam Pro', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+  color-scheme: dark;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg-body);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-weight: 400;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+a { color: inherit; text-decoration: none; }
+
+/* ========== NAVBAR ========== */
+.navbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  background: var(--bg-navbar);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 32px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.nav-logo-text {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 20px;
+  color: var(--text-heading);
+  letter-spacing: -0.3px;
+}
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  list-style: none;
+}
+.nav-links a {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-muted);
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--text-heading); }
+
+/* ========== COMING SOON BADGE (nav) ========== */
+.nav-coming-soon {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: 100px;
+  font-weight: 600;
+  font-size: 13px;
+  background: rgba(5,150,105,0.15);
+  color: var(--accent-light);
+  border: 1px solid rgba(5,150,105,0.25);
+  cursor: default;
+}
+
+/* ========== HERO ========== */
+.hero {
+  padding: 160px 32px 80px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -200px; left: 50%;
+  transform: translateX(-50%);
+  width: 1200px;
+  height: 900px;
+  background: radial-gradient(ellipse at 50% 30%, var(--hero-glow) 0%, var(--hero-glow-mid) 45%, transparent 75%);
+  pointer-events: none;
+}
+.hero-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  margin-bottom: 40px;
+  position: relative;
+}
+.hero h1 {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: clamp(36px, 5vw, 64px);
+  color: var(--text-heading);
+  letter-spacing: -1.5px;
+  line-height: 1.1;
+  margin-bottom: 20px;
+  position: relative;
+}
+.hero .subtitle {
+  font-size: clamp(16px, 2vw, 20px);
+  color: var(--text-muted);
+  max-width: 600px;
+  margin: 0 auto 40px;
+  font-weight: 400;
+  line-height: 1.6;
+}
+.hero-ctas {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 48px;
+  flex-wrap: wrap;
+}
+
+/* Coming Soon hero button */
+.btn-coming-soon {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(5,150,105,0.12);
+  color: var(--accent-light);
+  padding: 14px 32px;
+  border-radius: 12px;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 16px;
+  border: 1px solid rgba(5,150,105,0.25);
+  cursor: default;
+  position: relative;
+  overflow: hidden;
+}
+.btn-coming-soon::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(5,150,105,0.08), transparent);
+  animation: shimmer 3s infinite;
+}
+@keyframes shimmer {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-muted);
+  padding: 14px 28px;
+  border-radius: 12px;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 16px;
+  border: 1px solid var(--border);
+  transition: all 0.2s;
+}
+.btn-secondary:hover {
+  color: var(--text-heading);
+  border-color: var(--border-hover);
+  background: var(--btn-secondary-hover-bg);
+}
+.platform-icons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+}
+.platform-icons svg { color: var(--icon-stroke); opacity: 0.4; transition: opacity 0.2s; }
+.platform-icons svg:hover { opacity: 0.8; }
+
+/* ========== SECTIONS SHARED ========== */
+.section {
+  padding: 80px 32px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 16px;
+  text-align: center;
+}
+.section-title {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: clamp(28px, 3.5vw, 42px);
+  color: var(--text-heading);
+  text-align: center;
+  letter-spacing: -0.5px;
+  margin-bottom: 16px;
+}
+.section-subtitle {
+  font-size: 16px;
+  color: var(--text-muted);
+  text-align: center;
+  max-width: 560px;
+  margin: 0 auto 56px;
+}
+
+/* ========== FEATURES GRID ========== */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.feature-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 32px 28px;
+  transition: all 0.3s ease;
+  position: relative;
+}
+.feature-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 20%; right: 20%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.feature-card:hover {
+  border-color: var(--border-hover);
+  transform: translateY(-3px);
+  background: var(--bg-card-hover);
+}
+.feature-card:hover::before { opacity: 0.5; }
+.feature-icon {
+  width: 48px;
+  height: 48px;
+  background: rgba(5,150,105,0.1);
+  border: 1px solid rgba(5,150,105,0.2);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.feature-icon svg { width: 24px; height: 24px; color: var(--accent); }
+.feature-card h3 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--text-heading);
+  margin-bottom: 10px;
+}
+.feature-card p {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
+/* ========== HOW IT WORKS ========== */
+.steps {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0;
+  position: relative;
+  max-width: 800px;
+  margin: 0 auto;
+}
+.step { flex: 1; text-align: center; position: relative; padding: 0 24px; }
+.step-number {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: var(--bg-card);
+  border: 2px solid var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 20px;
+  color: var(--accent);
+  position: relative;
+  z-index: 2;
+}
+.step h3 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--text-heading);
+  margin-bottom: 8px;
+}
+.step p { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
+.steps-line {
+  position: absolute;
+  top: 28px;
+  left: 16.66%; right: 16.66%;
+  height: 2px;
+  background: var(--border);
+  z-index: 1;
+}
+.steps-line::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, var(--accent), var(--accent-light), var(--accent));
+  opacity: 0.4;
+}
+
+/* ========== PROTOCOLS ========== */
+.protocols {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.protocol-badge {
+  padding: 8px 18px;
+  border: 1px solid var(--border-hover);
+  border-radius: 100px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-muted);
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.protocol-badge:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(5,150,105,0.05);
+}
+
+/* ========== DOWNLOAD SECTION (Coming Soon) ========== */
+.download-section {
+  padding: 100px 32px;
+  background: linear-gradient(180deg, transparent 0%, var(--download-bg) 50%, transparent 100%);
+  position: relative;
+}
+.download-section::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  opacity: 0.3;
+}
+.download-inner { max-width: 1200px; margin: 0 auto; }
+.download-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+  margin-bottom: 40px;
+}
+.download-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 32px 20px;
+  text-align: center;
+  transition: all 0.3s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+.download-card:hover {
+  border-color: var(--border-hover);
+  transform: translateY(-4px);
+}
+.download-card-icon {
+  width: 56px; height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.download-card-icon svg { width: 48px; height: 48px; color: var(--text); opacity: 0.5; }
+.download-card h3 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--text-heading);
+}
+.download-card-soon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 12px 20px;
+  background: rgba(5,150,105,0.08);
+  color: var(--text-muted);
+  border-radius: 10px;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 13px;
+  border: 1px dashed rgba(5,150,105,0.25);
+  cursor: default;
+}
+.download-note {
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+}
+
+/* ========== STATS BAR ========== */
+.stats-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.stat { text-align: center; padding: 24px 16px; }
+.stat-number {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 36px;
+  color: var(--text-heading);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.stat-number span { color: var(--accent); }
+.stat-label { font-size: 14px; color: var(--text-muted); font-weight: 500; }
+
+/* ========== FOOTER ========== */
+.footer {
+  padding: 48px 32px;
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+.footer-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.footer-logo-text {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 16px;
+  color: var(--text-muted);
+}
+.footer-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  margin-bottom: 20px;
+}
+.footer-links a { font-size: 13px; color: var(--text-dim); transition: color 0.2s; }
+.footer-links a:hover { color: var(--text-muted); }
+.footer-copy { font-size: 12px; color: var(--text-dim); }
+
+/* ========== DIVIDER ========== */
+.divider {
+  width: 100%;
+  max-width: 1200px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--divider), transparent);
+  margin: 0 auto;
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 1024px) {
+  .features-grid { grid-template-columns: repeat(2, 1fr); }
+  .download-grid { grid-template-columns: repeat(3, 1fr); }
+  .stats-bar { grid-template-columns: repeat(2, 1fr); }
+
+}
+@media (max-width: 768px) {
+  .navbar { padding: 0 20px; }
+  .nav-links { gap: 16px; }
+  .nav-links .nav-link-text { display: none; }
+  .hero { padding: 120px 20px 60px; }
+  .hero-logo svg { width: 80px; height: auto; }
+  .section { padding: 60px 20px; }
+  .features-grid { grid-template-columns: 1fr; }
+  .steps { flex-direction: column; gap: 32px; }
+  .steps-line { display: none; }
+  .download-section { padding: 60px 20px; }
+  .download-grid { grid-template-columns: 1fr 1fr; }
+  .stats-bar { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .platform-icons { gap: 20px; }
+
+}
+@media (max-width: 480px) {
+  .download-grid { grid-template-columns: 1fr; }
+  .hero h1 { font-size: 32px; }
+  .nav-links { gap: 12px; }
+  .hero-ctas { flex-direction: column; }
+  .btn-coming-soon, .btn-secondary { width: 100%; justify-content: center; }
+
+}
+</style>
+</head>
+<body>
+
+<!-- ========== NAVBAR ========== -->
+<nav class="navbar">
+  <a href="#" class="nav-logo">
+    <svg width="36" height="20" viewBox="0 0 48 26" fill="none">
+      <rect width="48" height="26" rx="13" fill="#059669"/>
+      <circle cx="35" cy="13" r="10" fill="white"/>
+      <rect x="28.33" y="8.19" width="7.04" height="1.48" rx="0.74" fill="#059669" opacity="0.25"/>
+      <rect x="29.63" y="10.78" width="10.74" height="1.48" rx="0.74" fill="#059669" opacity="0.45"/>
+      <rect x="30.93" y="13.37" width="5.56" height="1.48" rx="0.74" fill="#059669" opacity="0.7"/>
+      <rect x="32.22" y="15.96" width="9.63" height="1.48" rx="0.74" fill="#059669"/>
+    </svg>
+    <span class="nav-logo-text">WireRules</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#features" class="nav-link-text">Features</a></li>
+    <li><a href="#platforms" class="nav-link-text">Platforms</a></li>
+    <li><span class="nav-coming-soon">Coming Soon</span></li>
+  </ul>
+</nav>
+
+<!-- ========== HERO ========== -->
+<section class="hero">
+  <div class="hero-logo">
+    <svg width="120" height="64" viewBox="0 0 144 76" fill="none">
+      <rect width="144" height="76" rx="38" fill="#059669"/>
+      <circle cx="106" cy="38" r="30" fill="white"/>
+      <rect x="86" y="23.56" width="21.11" height="4.44" rx="2.22" fill="#059669" opacity="0.25"/>
+      <rect x="89.89" y="31.33" width="32.22" height="4.44" rx="2.22" fill="#059669" opacity="0.45"/>
+      <rect x="93.78" y="39.11" width="16.67" height="4.44" rx="2.22" fill="#059669" opacity="0.7"/>
+      <rect x="97.67" y="46.89" width="28.89" height="4.44" rx="2.22" fill="#059669"/>
+    </svg>
+  </div>
+  <h1>Your network. Your rules.</h1>
+  <p class="subtitle">Monitor, inspect, and filter network traffic on Android, iOS, macOS, Windows, and Linux. Deep packet inspection firewall for every device.</p>
+  <div class="hero-ctas">
+    <span class="btn-coming-soon">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      Coming Soon
+    </span>
+    <a href="#features" class="btn-secondary">
+      See Features
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </a>
+  </div>
+  <div class="platform-icons">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M6 18c0 .55.45 1 1 1h1v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h2v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h1c.55 0 1-.45 1-1V8H6v10zM3.5 8C2.67 8 2 8.67 2 9.5v7c0 .83.67 1.5 1.5 1.5S5 17.33 5 16.5v-7C5 8.67 4.33 8 3.5 8zm17 0c-.83 0-1.5.67-1.5 1.5v7c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5v-7c0-.83-.67-1.5-1.5-1.5zm-4.97-5.84l1.3-1.3c.2-.2.2-.51 0-.71-.2-.2-.51-.2-.71 0l-1.48 1.48C13.85 1.23 12.95 1 12 1c-.96 0-1.86.23-2.66.63L7.85.15c-.2-.2-.51-.2-.71 0-.2.2-.2.51 0 .71l1.31 1.31C6.97 3.26 6 5.01 6 7h12c0-1.99-.97-3.75-2.47-4.84zM10 5H9V4h1v1zm5 0h-1V4h1v1z"/></svg>
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M3 12V6.5l8-1.1V12H3zm0 .5h8v6.6l-8-1.1V12.5zm9 0h9V21l-9-1.2V12.5zM12 12V5.3L21 4v8H12z"/></svg>
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M14.62 8.35c-.42.28-1.75 1.04-1.95 1.19-.39.31-.75.29-1.14-.01-.2-.16-1.53-.92-1.95-1.19-.48-.31-.45-.7.08-.92C11.3 6.73 12.94 6.78 14.57 7.45c.49.21.51.6.05.9M21.84 15.63c-.93-2.09-2.2-3.99-3.84-5.66-.53-.55-.86-1.17-1.06-1.88-.1-.33-.17-.67-.24-1.01-.2-.88-.29-1.78-.7-2.61C15.27 2.89 14 2.07 12.16 2c-1.81.05-3.16.81-3.95 2.4-.46.89-.58 1.85-.82 2.78-.11.43-.3.82-.57 1.16-1.76 2.28-3.23 4.74-4.29 7.47-.13.32-.23.66-.31 1.02-.15.67.01 1.27.54 1.73.83.69 1.79 1.08 2.79 1.39 1.08.33 2.19.48 3.3.62.21.02.43.03.61-.13.25-.22.12-.54-.1-.73-.19-.16-.42-.28-.63-.42-.56-.37-1.12-.73-1.4-1.4-.17-.39-.2-.79-.11-1.21.19-.8.7-1.35 1.4-1.72.81-.43 1.66-.52 2.56-.46.76.08 1.5.08 2.26 0 .72-.05 1.4 0 2.06.32 1.17.54 1.88 1.77 1.67 3.03-.06.34-.22.65-.4.93-.33.49-.77.88-1.24 1.22-.2.15-.41.28-.6.43-.09.07-.2.18-.14.29.07.15.21.13.34.12 1.23-.14 2.44-.37 3.61-.77.89-.3 1.73-.68 2.46-1.29.69-.55.95-1.23.73-2.11-.02-.1-.04-.17-.09-1.04"/><path d="M12.08 14.18c-.43.02-.86-.03-1.28-.09-.73-.12-1.37-.4-1.9-.89-.32-.3-.56-.66-.7-1.08-.13-.38-.17-.77-.1-1.16.11-.66.47-1.17.98-1.57 1.16-.89 2.49-1.24 3.96-.93.64.12 1.21.37 1.69.76.53.43.84.97.89 1.64.08.82-.21 1.52-.76 2.12-.71.77-1.6 1.15-2.63 1.2h-.15z"/></svg>
+  </div>
+</section>
+
+
+<!-- ========== FEATURES ========== -->
+<section class="section" id="features">
+  <div class="section-label">Features</div>
+  <h2 class="section-title">Everything you need to secure your network</h2>
+  <p class="section-subtitle">Powerful deep packet inspection with an intuitive interface. See what's happening and take control.</p>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><circle cx="12" cy="11" r="3"/><line x1="12" y1="8" x2="12" y2="5"/></svg>
+      </div>
+      <h3>Deep Packet Inspection</h3>
+      <p>Inspect TLS, QUIC, HTTP, and DNS traffic in real-time. Extract hostnames from encrypted connections, including IETF QUIC and Google gQUIC.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+      </div>
+      <h3>Smart Blocking</h3>
+      <p>Block domains, IPs, and ports with flexible rules. Wildcard patterns, CIDR ranges, and per-app filtering. Hot-reload rules without restarting.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+      </div>
+      <h3>Cross-Platform</h3>
+      <p>One engine across Android, iOS, macOS, Windows, and Linux. Same DPI logic, same accuracy, everywhere you need it.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      </div>
+      <h3>Real-Time Monitoring</h3>
+      <p>See every connection as it happens. Track bytes, packets, hostnames, and protocols with live flow events streamed to the UI.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12C2 6.5 6.5 2 12 2a10 10 0 0 1 8 4"/><path d="M5 19.5C5 14 8 10 12 10c2.5 0 4.5 1.5 5.5 4"/><path d="M12 18a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/></svg>
+      </div>
+      <h3>TLS Fingerprinting</h3>
+      <p>JA4 fingerprints identify client applications and detect anomalies. Know exactly what's connecting from your network.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      </div>
+      <h3>IPv4 &amp; IPv6</h3>
+      <p>Full dual-stack support with IPv6 extension header traversal. Works on modern networks out of the box, no configuration needed.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ========== HOW IT WORKS ========== -->
+<section class="section">
+  <div class="section-label">How It Works</div>
+  <h2 class="section-title">Three steps to a safer network</h2>
+  <p class="section-subtitle">Get up and running in minutes. No complex setup required.</p>
+  <div class="steps">
+    <div class="steps-line"></div>
+    <div class="step">
+      <div class="step-number">1</div>
+      <h3>Install</h3>
+      <p>Download WireRules for your platform. Available on all major operating systems.</p>
+    </div>
+    <div class="step">
+      <div class="step-number">2</div>
+      <h3>Configure</h3>
+      <p>Set your rules: block domains, filter apps, restrict IPs. Flexible patterns make it simple.</p>
+    </div>
+    <div class="step">
+      <div class="step-number">3</div>
+      <h3>Protect</h3>
+      <p>WireRules inspects and filters all traffic transparently. Monitor connections in real time.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ========== PROTOCOLS ========== -->
+<section class="section" id="platforms">
+  <div class="section-label">Protocol Support</div>
+  <h2 class="section-title">Deep inspection across protocols</h2>
+  <p class="section-subtitle">Extract hostnames and metadata from encrypted and unencrypted traffic alike.</p>
+  <div class="protocols">
+    <span class="protocol-badge">TLS / SSL</span>
+    <span class="protocol-badge">QUIC (IETF v1/v2)</span>
+    <span class="protocol-badge">gQUIC (Google)</span>
+    <span class="protocol-badge">HTTP</span>
+    <span class="protocol-badge">DNS</span>
+    <span class="protocol-badge">TCP</span>
+    <span class="protocol-badge">UDP</span>
+    <span class="protocol-badge">IPv4</span>
+    <span class="protocol-badge">IPv6</span>
+  </div>
+</section>
+
+<!-- ========== DOWNLOAD (Coming Soon) ========== -->
+<section class="download-section" id="download">
+  <div class="download-inner">
+    <div class="section-label">Download</div>
+    <h2 class="section-title">Coming Soon</h2>
+    <p class="section-subtitle">Available on every major platform. One engine, consistent protection everywhere.</p>
+    <div class="download-grid">
+      <div class="download-card">
+        <div class="download-card-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M6 18c0 .55.45 1 1 1h1v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h2v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h1c.55 0 1-.45 1-1V8H6v10zM3.5 8C2.67 8 2 8.67 2 9.5v7c0 .83.67 1.5 1.5 1.5S5 17.33 5 16.5v-7C5 8.67 4.33 8 3.5 8zm17 0c-.83 0-1.5.67-1.5 1.5v7c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5v-7c0-.83-.67-1.5-1.5-1.5zm-4.97-5.84l1.3-1.3c.2-.2.2-.51 0-.71-.2-.2-.51-.2-.71 0l-1.48 1.48C13.85 1.23 12.95 1 12 1c-.96 0-1.86.23-2.66.63L7.85.15c-.2-.2-.51-.2-.71 0-.2.2-.2.51 0 .71l1.31 1.31C6.97 3.26 6 5.01 6 7h12c0-1.99-.97-3.75-2.47-4.84zM10 5H9V4h1v1zm5 0h-1V4h1v1z"/></svg>
+        </div>
+        <h3>Android</h3>
+        <span class="download-card-soon">Coming Soon</span>
+      </div>
+      <div class="download-card">
+        <div class="download-card-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+        </div>
+        <h3>iOS</h3>
+        <span class="download-card-soon">Coming Soon</span>
+      </div>
+      <div class="download-card">
+        <div class="download-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        </div>
+        <h3>macOS</h3>
+        <span class="download-card-soon">Coming Soon</span>
+      </div>
+      <div class="download-card">
+        <div class="download-card-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M3 12V6.5l8-1.1V12H3zm0 .5h8v6.6l-8-1.1V12.5zm9 0h9V21l-9-1.2V12.5zM12 12V5.3L21 4v8H12z"/></svg>
+        </div>
+        <h3>Windows</h3>
+        <span class="download-card-soon">Coming Soon</span>
+      </div>
+      <div class="download-card">
+        <div class="download-card-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M14.62 8.35c-.42.28-1.75 1.04-1.95 1.19-.39.31-.75.29-1.14-.01-.2-.16-1.53-.92-1.95-1.19-.48-.31-.45-.7.08-.92C11.3 6.73 12.94 6.78 14.57 7.45c.49.21.51.6.05.9M21.84 15.63c-.93-2.09-2.2-3.99-3.84-5.66-.53-.55-.86-1.17-1.06-1.88-.1-.33-.17-.67-.24-1.01-.2-.88-.29-1.78-.7-2.61C15.27 2.89 14 2.07 12.16 2c-1.81.05-3.16.81-3.95 2.4-.46.89-.58 1.85-.82 2.78-.11.43-.3.82-.57 1.16-1.76 2.28-3.23 4.74-4.29 7.47-.13.32-.23.66-.31 1.02-.15.67.01 1.27.54 1.73.83.69 1.79 1.08 2.79 1.39 1.08.33 2.19.48 3.3.62.21.02.43.03.61-.13.25-.22.12-.54-.1-.73-.19-.16-.42-.28-.63-.42-.56-.37-1.12-.73-1.4-1.4-.17-.39-.2-.79-.11-1.21.19-.8.7-1.35 1.4-1.72.81-.43 1.66-.52 2.56-.46.76.08 1.5.08 2.26 0 .72-.05 1.4 0 2.06.32 1.17.54 1.88 1.77 1.67 3.03-.06.34-.22.65-.4.93-.33.49-.77.88-1.24 1.22-.2.15-.41.28-.6.43-.09.07-.2.18-.14.29.07.15.21.13.34.12 1.23-.14 2.44-.37 3.61-.77.89-.3 1.73-.68 2.46-1.29.69-.55.95-1.23.73-2.11-.02-.1-.04-.17-.09-1.04"/><path d="M12.08 14.18c-.43.02-.86-.03-1.28-.09-.73-.12-1.37-.4-1.9-.89-.32-.3-.56-.66-.7-1.08-.13-.38-.17-.77-.1-1.16.11-.66.47-1.17.98-1.57 1.16-.89 2.49-1.24 3.96-.93.64.12 1.21.37 1.69.76.53.43.84.97.89 1.64.08.82-.21 1.52-.76 2.12-.71.77-1.6 1.15-2.63 1.2h-.15z"/></svg>
+        </div>
+        <h3>Linux</h3>
+        <span class="download-card-soon">Coming Soon</span>
+      </div>
+    </div>
+    <p class="download-note">Android 8+ &middot; iOS 15+ &middot; macOS 12+ &middot; Windows 10+ &middot; Linux (kernel 3.13+)</p>
+  </div>
+</section>
+
+<!-- ========== STATS BAR ========== -->
+<section class="section">
+  <div class="stats-bar">
+    <div class="stat">
+      <div class="stat-number"><span>5</span></div>
+      <div class="stat-label">Platforms</div>
+    </div>
+    <div class="stat">
+      <div class="stat-number"><span>9</span></div>
+      <div class="stat-label">Protocols inspected</div>
+    </div>
+    <div class="stat">
+      <div class="stat-number">IPv<span>6</span></div>
+      <div class="stat-label">Full dual-stack</div>
+    </div>
+    <div class="stat">
+      <div class="stat-number"><span>&lt;1</span>ms</div>
+      <div class="stat-label">Inspection latency</div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== FOOTER ========== -->
+<footer class="footer">
+  <div class="footer-logo">
+    <svg width="28" height="16" viewBox="0 0 48 26" fill="none">
+      <rect width="48" height="26" rx="13" fill="#059669"/>
+      <circle cx="35" cy="13" r="10" fill="white"/>
+      <rect x="28.33" y="8.19" width="7.04" height="1.48" rx="0.74" fill="#059669" opacity="0.25"/>
+      <rect x="29.63" y="10.78" width="10.74" height="1.48" rx="0.74" fill="#059669" opacity="0.45"/>
+      <rect x="30.93" y="13.37" width="5.56" height="1.48" rx="0.74" fill="#059669" opacity="0.7"/>
+      <rect x="32.22" y="15.96" width="9.63" height="1.48" rx="0.74" fill="#059669"/>
+    </svg>
+    <span class="footer-logo-text">WireRules</span>
+  </div>
+  <p class="footer-copy">&copy; 2026 WireRules. All rights reserved.</p>
+</footer>
+
+</body>
+</html>
